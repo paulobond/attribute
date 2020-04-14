@@ -167,8 +167,8 @@ for epoch in range(1, 10):
 
         # Label based metrics
         device = device_("cpu")
-        target2.to(device)
-        predictions.to(device)
+        target2 = target2.to(device)
+        predictions = predictions.to(device)
         print(target2.device)
         label_based_TP += ((predictions == 1) & (target2 == 1)).sum(dim=0)
         label_based_TN += ((predictions == 0) & (target2 == 0)).sum(dim=0)
