@@ -57,7 +57,7 @@ if use_cuda:
     model.cuda()
 
 train_dataset, val_dataset = torch.utils.data.random_split(dataset,
-                                                           [len(dataset)-10000, 10000])
+                                                           [len(dataset)-1000, 1000])
 
 train_loader = torch.utils.data.DataLoader(train_dataset,
                                            batch_size=10,
@@ -169,7 +169,6 @@ for epoch in range(1, 10):
         device = device_("cpu")
         target2 = target2.to(device)
         predictions = predictions.to(device)
-        print(target2.device)
         label_based_TP += ((predictions == 1) & (target2 == 1)).sum(dim=0)
         label_based_TN += ((predictions == 0) & (target2 == 0)).sum(dim=0)
         label_based_FP += ((predictions == 1) & (target2 == 0)).sum(dim=0)
