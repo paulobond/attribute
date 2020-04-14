@@ -12,6 +12,7 @@ from collections import defaultdict
 from torch.optim import lr_scheduler
 from attribute_index import attribute2attribute_index, n_attributes, attribute_index2attribute
 from model import Model
+from torch import device as device_
 
 
 use_cuda = torch.cuda.is_available()
@@ -165,12 +166,10 @@ for epoch in range(1, 10):
                 sum(predictions[i] == 1))
 
         # Label based metrics
-        target2.cpu()
-        predictions.cpu()
+        device = device_("cpu")
+        target2.to(device)
+        predictions.to(device)
         print(target2.device)
-        print(predictions.device)
-        print(data.device)
-        aa = ((predictions == 1) & (target2 == 1))
         label_based_TP += ((predictions == 1) & (target2 == 1)).sum(dim=0)
         label_based_TN += ((predictions == 0) & (target2 == 0)).sum(dim=0)
         label_based_FP += ((predictions == 1) & (target2 == 0)).sum(dim=0)
