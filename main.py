@@ -166,6 +166,7 @@ for epoch in range(1, 10):
 
         # Label based metrics
         target2.cpu()
+        predictions.cpu()
         label_based_TP += ((predictions == 1) & (target2 == 1)).sum(dim=0)
         label_based_TN += ((predictions == 0) & (target2 == 0)).sum(dim=0)
         label_based_FP += ((predictions == 1) & (target2 == 0)).sum(dim=0)
