@@ -141,6 +141,7 @@ for epoch in range(1, 10):
             target2[i] = dataset_idx2y[int(target[i])]
         if use_cuda:
             target2 = target2.cuda()
+            predictions = predictions.cuda()
 
         # validation loss
         criterion = torch.nn.BCELoss(reduction='mean')
