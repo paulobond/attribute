@@ -15,7 +15,7 @@ from model import Model
 
 
 use_cuda = torch.cuda.is_available()
-n_attributes = 48
+print(f"Use cuda: {use_cuda}")
 
 product_label2votes = pickle.load(open('./label2votes.pkl', 'rb'))
 
@@ -96,6 +96,8 @@ for epoch in range(1, 10):
         target2 = torch.zeros(len(target), n_attributes)
         for i in range(len(target2)):
             target2[i] = dataset_idx2y[int(target[i])]
+        if use_cuda:
+            target2 = target2.cuda()
 
         criterion = torch.nn.BCELoss(reduction='mean')
         loss = criterion(output, target2)
@@ -134,6 +136,8 @@ for epoch in range(1, 10):
         target2 = torch.zeros(len(target), n_attributes)
         for i in range(len(target2)):
             target2[i] = dataset_idx2y[int(target[i])]
+        if use_cuda:
+            target2 = target2.cuda()
 
         # validation loss
         criterion = torch.nn.BCELoss(reduction='mean')
