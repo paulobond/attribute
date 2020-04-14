@@ -57,7 +57,7 @@ if use_cuda:
     model.cuda()
 
 train_dataset, val_dataset = torch.utils.data.random_split(dataset,
-                                                           [len(dataset)-1000, 1000])
+                                                           [len(dataset)-3000, 3000])
 
 train_loader = torch.utils.data.DataLoader(train_dataset,
                                            batch_size=10,
@@ -89,7 +89,7 @@ for epoch in range(1, 10):
     train_loss = 0
     for batch_idx, (data, target) in enumerate(train_loader):
 
-        if batch_idx % 10 == 0:
+        if batch_idx % 100 == 0:
             print(f"Batch {batch_idx}")
 
         if use_cuda:
@@ -200,5 +200,7 @@ for epoch in range(1, 10):
             mean_precision = round(float(
                 label_based_TP[attribute_index] / (label_based_TP[attribute_index] + label_based_FP[attribute_index])),
                                    2)
-        print(f"Attribute {attribute_index} ({attribute_index2attribute[attribute_index]}):"
+
+        n_examples = (label_based_TP+label_based_FN)[attribute_index]
+        print(f"Attribute {attribute_index} ({n_examples}) ({attribute_index2attribute[attribute_index]}):"
               f" precision {mean_precision}  recall {mean_recall}")
