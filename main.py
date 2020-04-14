@@ -56,7 +56,7 @@ if use_cuda:
     model.cuda()
 
 train_dataset, val_dataset = torch.utils.data.random_split(dataset,
-                                                           [len(dataset)-1000, 1000])
+                                                           [len(dataset)-10000, 10000])
 
 train_loader = torch.utils.data.DataLoader(train_dataset,
                                            batch_size=10,
@@ -139,9 +139,8 @@ for epoch in range(1, 10):
         target2 = torch.zeros(len(target), n_attributes)
         for i in range(len(target2)):
             target2[i] = dataset_idx2y[int(target[i])]
-        # if use_cuda:
-        #     target2 = target2.cuda()
-        #     predictions = predictions.cuda()
+        if use_cuda:
+            target2 = target2.cuda()
 
         # validation loss
         criterion = torch.nn.BCELoss(reduction='mean')
@@ -166,6 +165,7 @@ for epoch in range(1, 10):
                 sum(predictions[i] == 1))
 
         # Label based metrics
+        target2.cpu()
         label_based_TP += ((predictions == 1) & (target2 == 1)).sum(dim=0)
         label_based_TN += ((predictions == 0) & (target2 == 0)).sum(dim=0)
         label_based_FP += ((predictions == 1) & (target2 == 0)).sum(dim=0)
