@@ -88,6 +88,9 @@ for epoch in range(1, 10):
     train_loss = 0
     for batch_idx, (data, target) in enumerate(train_loader):
 
+        if batch_idx % 10 == 0:
+            print(f"Batch {batch_idx}")
+
         if use_cuda:
             data, target = data.cuda(), target.cuda()
         optimizer.zero_grad()
